@@ -104,6 +104,21 @@ go_binary(
     tags = ["manual"],
 )
 
+go_binary(
+    name = "hello_linkmode_select_bin",
+    srcs = ["hello.go"],
+    linkmode = select({
+        "@io_bazel_rules_go//go/platform:arm": "pie",
+        "//conditions:default": "normal",
+    }),
+    tags = ["manual"],
+)
+
+build_test(
+    name = "hello_linkmode_select_test",
+    targets = [":hello_linkmode_select_bin"],
+)
+
 linkmode_pie_wrapper(
     name = "hello_pie_setting_bin",
     tags = ["manual"],
